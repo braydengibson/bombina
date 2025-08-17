@@ -53,6 +53,9 @@ div {
 	height: 200px;
 }
 
+.lyrics {
+    list-style-type: none;
+}
 
 .banner {
 	border: 1px solid #000;
@@ -60,7 +63,7 @@ div {
 	vertical-align: top;
 	width: 540px;
 	height: 170px;
-	background-image: url('banner.png');
+	background-image: url('imgs/banner.png');
 	background-size: cover;
 	background-position: 20%;
 }
@@ -184,7 +187,7 @@ div {
 	width: 170px;
 	height: 170px;
 	margin-bottom: 12px;
-	background-image: url('avvy.png')
+	background-image: url('imgs/avvy.png')
 }
 
 .likes {
@@ -192,7 +195,7 @@ div {
 	width: 170px;
 	height: 170px;
 	margin-bottom: 12px;
-	background-image: url('5.png')
+	background-image: url('imgs/5.png')
 }
 
 .likes table {
