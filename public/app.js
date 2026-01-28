@@ -102,52 +102,74 @@ function initializeFilters() {
   });
   
   const typeButtonsContainer = document.getElementById("typeButtons");
-  types.forEach(type => {
-    const btn = document.createElement("button");
-    btn.className = `type-btn ${type.toLowerCase()}`;
-    btn.textContent = type;
-    btn.onclick = () => {
-      btn.classList.toggle("active");
-      if (document.getElementById("liveUpdate").checked) {
-        applyFilters();
-      }
-    };
-    typeButtonsContainer.appendChild(btn);
-  });
+  if (typeButtonsContainer) {
+    types.forEach(type => {
+      const btn = document.createElement("button");
+      btn.className = `type-btn ${type.toLowerCase()}`;
+      btn.textContent = type;
+      btn.onclick = () => {
+        btn.classList.toggle("active");
+        const liveUpdate = document.getElementById("liveUpdate");
+        if (liveUpdate && liveUpdate.checked) {
+          applyFilters();
+        }
+      };
+      typeButtonsContainer.appendChild(btn);
+    });
+  }
 
   // Show initial results
   applyFilters();
 }
 
 // Event listeners
-document.getElementById("liveUpdate").addEventListener("change", applyFilters);
-document.getElementById("pokemonNameSearch").addEventListener("input", applyFilters);
-document.getElementById("bstMin").addEventListener("input", applyFilters);
-document.getElementById("bstMax").addEventListener("input", applyFilters);
-document.getElementById("filterBtn").addEventListener("click", applyFilters);
+document.addEventListener("DOMContentLoaded", function() {
+  const liveUpdateCheckbox = document.getElementById("liveUpdate");
+  const nameSearch = document.getElementById("pokemonNameSearch");
+  const bstMin = document.getElementById("bstMin");
+  const bstMax = document.getElementById("bstMax");
+  
+  if (liveUpdateCheckbox) liveUpdateCheckbox.addEventListener("change", applyFilters);
+  if (nameSearch) nameSearch.addEventListener("input", applyFilters);
+  if (bstMin) bstMin.addEventListener("input", applyFilters);
+  if (bstMax) bstMax.addEventListener("input", applyFilters);
+  
+  // Initialize filters
+  initializeFilters();
+});
 
 // Reset functions
 function resetFilters() {
-  document.getElementById("bstMin").value = 180;
-  document.getElementById("bstMax").value = 720;
+  const bstMin = document.getElementById("bstMin");
+  const bstMax = document.getElementById("bstMax");
+  const nameSearch = document.getElementById("pokemonNameSearch");
+  
+  if (bstMin) bstMin.value = 180;
+  if (bstMax) bstMax.value = 720;
   document.querySelectorAll(".type-btn").forEach(btn => btn.classList.remove("active"));
-  document.getElementById("pokemonNameSearch").value = "";
+  if (nameSearch) nameSearch.value = "";
   applyFilters();
 }
 
 function resetBST() {
-  document.getElementById("bstMin").value = 180;
-  document.getElementById("bstMax").value = 720;
-  if (document.getElementById("liveUpdate").checked) applyFilters();
+  const bstMin = document.getElementById("bstMin");
+  const bstMax = document.getElementById("bstMax");
+  
+  if (bstMin) bstMin.value = 180;
+  if (bstMax) bstMax.value = 720;
+  const liveUpdate = document.getElementById("liveUpdate");
+  if (liveUpdate && liveUpdate.checked) applyFilters();
 }
 
 function resetTypes() {
   document.querySelectorAll(".type-btn").forEach(btn => btn.classList.remove("active"));
-  if (document.getElementById("liveUpdate").checked) applyFilters();
+  const liveUpdate = document.getElementById("liveUpdate");
+  if (liveUpdate && liveUpdate.checked) applyFilters();
 }
 
 function randomizePokemon() {
-  const count = parseInt(document.getElementById("randomCount").value) || 6;
+  const randomCountInput = document.getElementById("randomCount");
+  const count = (randomCountInput ? parseInt(randomCountInput.value) : 0) || 6;
   const pokemonArray = Object.entries(POKEDEX_DATA);
   const selected = [];
   
@@ -180,6 +202,3 @@ function toggleUnder50lbs() {}
 function toggleWeight50to250() {}
 function toggleOver250lbs() {}
 function handleVGCRegulationChange() {}
-
-// Initialize on page load
-window.addEventListener("DOMContentLoaded", initializeFilters);
